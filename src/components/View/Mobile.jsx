@@ -2,13 +2,11 @@ import { useRecoilState } from "recoil";
 import Header from "../Header/Header";
 import Item from "../Item/Item";
 import { recoilUserData } from "../../recoil/recoil";
+import { formatNumber2 } from "../../utils/functions";
+import SmalltimeModal from "../Modal/SmalTimeModal";
 
 export default function Mobile() {
   const [userData, setUserData] = useRecoilState(recoilUserData);
-
-  const formatNumber2 = (n) => {
-    return String(n).padStart(2, "0");
-  };
 
   const getTime = () => {
     const now = new Date();
@@ -68,19 +66,23 @@ export default function Mobile() {
   return (
     <div className="w-full h-full flex flex-col shadow-md relative">
       <Header />
+      <div className="w-full flex justify-center absolute left-0 top-[84px] z-40">
+        <SmalltimeModal />
+      </div>
       <div className="w-full h-full bg-[#f7f7f7] overflow-y-scroll px-[22px] flex flex-col gap-[32px] pb-[12px]">
         <div className="mt-[72px]" />
-        {userData.map((item, idx) => (
-          <Item
-            key={`item-${idx}`}
-            timeData={item.time}
-            title={item.title}
-            idx={idx}
-            setUserData={handleTitle}
-            handleDelete={handleDeleteButton}
-            handleUpdate={handleUpdateButton}
-          />
-        ))}
+        {userData.length > 0 &&
+          userData.map((item, idx) => (
+            <Item
+              key={`item-${idx}`}
+              timeData={item.time}
+              title={item.title}
+              idx={idx}
+              setUserData={handleTitle}
+              handleDelete={handleDeleteButton}
+              handleUpdate={handleUpdateButton}
+            />
+          ))}
         <div className="w-full flex justify-center items-center">
           <button
             className="button__item bg-blue-500 rounded-md text-white font-bold text-3xl"
